@@ -1,0 +1,23 @@
+.rankingRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .rank {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: -0.6000000238418579px;
+    text-align: center;
+    width: 30px; 
+    border-radius: 50%;
+    color: #FF0045;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    margin-top: 5px;
+  }
