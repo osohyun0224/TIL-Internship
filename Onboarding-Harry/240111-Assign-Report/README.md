@@ -118,32 +118,4 @@ npm run gateway
 
 저는 이제 페이지네이션 코드를 적용하려고 이미 잘 적용된 페이지(영상순위) 페이지 코드를 참고해서 구현해보고자 합니다.
 
-![Alt text](image.png)
 
-```
-  useEffect(() => {
-    const fetchTrends = async () => {
-      setIsLoading(true);
-      const { data, loading } = await getTrendVideos({
-        variables: {
-          ...variables,
-          page: 1,
-          pageSize: 20,
-        },
-      });
-  
-      if (!loading && data) {
-        const newVideos = formatVideoList(data.getTrendsVideosInfo.videos);
-        setVideoList(newVideos);
-        setIsMoreButton(data.getTrendsVideosInfo.videos.length === 20);
-      }
-      setIsLoading(false);
-    };
-  
-    fetchTrends();
-  }, [query?.nations, query?.category, query?.date]);
-  ```
-
-- 원래 코드에서 currentPage 상태를 사용하여 페이지 번호를 관리하였지만, 항상 page:1로 고정해서 첫 페이지의 데이터만 가져오도록 변경하였습니다.
-- currentPage를 의존성 배열에 포함시켜서 해당 페이지 값이 변경될 때마다 fetchTrends 함수를 호출했지만,
-이 의존성 배열에서 제거하여 쿼리의 변경사항에만 반응하도록 변경하였습니다.
