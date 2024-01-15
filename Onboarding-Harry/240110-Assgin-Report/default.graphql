@@ -1,0 +1,11 @@
+type Query {
+  getTrendsVideosInfo(
+    gl: String,
+    section: String,
+    section_sub: String,
+    date: String,
+    hour: Int,
+    page: Int, //추가됨     
+    pageSize: Int  //추가됨   
+  ): TrendsVideosInfo
+}
