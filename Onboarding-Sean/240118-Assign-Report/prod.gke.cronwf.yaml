@@ -1,0 +1,102 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  namespace: datapipeline
+  name: prod-data-devsampling
+  labels:
+    owner: garden   
+spec:
+  schedule: "30 13 * * *"
+  concurrencyPolicy: "Forbid"
+  workflowSpec:
+    onExit: exit-handler
+    retryStrategy:
+      retryPolicy: Always
+      limit: 3
+    imagePullSecrets:
+      - name: aws-ecr
+    serviceAccountName: plumbers-sa
+    entrypoint: main
+    templates:
+      - name: main
+        dag:
+          tasks:
+            - name: start-notification
+              templateRef:
+                name: slack-notification-template
+                template: start-notification
+                clusterScope: true
+            - name: devSampling
+              dependencies: [start-notification]
+              template: run-data-devSampling
+      - name: run-data-devsampling
+        metadata:
+          labels:
+            owner: garden
+        nodeSelector:
+            cloud.google.com/gke-nodepool: nodes
+        container:
+          name: prod-data-devsampling
+          image: 314916389090.dkr.ecr.ap-northeast-2.amazonaws.com/datacomponent:prod.workflow
+          imagePullPolicy: "Always"
+          command: [ npm, run, dist, devSampling, --, -y]
+          env:
+            # 환경 변수들...
+              - name: CONST_SRC_CHANNEL_INFO
+                value: "youtube_channel_info"    
+              - name: CONST_DST_CHANNEL_INFO
+                value: "localdevs_youtube_channel_info"    
+              - name: CONST_SRC_CHANNEL_STAT
+                value: "youtube_channel_stat*"    
+              - name: CONST_DST_CHANNEL_STAT
+                value: "localdevs_youtube_channel_stat"    
+              - name: CONST_CHANNEL_STAT_BEFOREDAYS
+                value: "120"    
+              - name: CONST_SRC_VIDEO_INFO
+                value: "youtube_video_info"    
+              - name: CONST_DST_VIDEO_INFO
+                value: "localdevs_youtube_video_info"    
+              - name: CONST_SRC_VIDEO_STAT
+                value: "youtube_video_stat"    
+              - name: CONST_DST_VIDEO_STAT
+                value: "localdevs_youtube_video_stat"    
+              - name: CONST_VIDEO_STAT_BEFOREDAYS
+                value: "120"            
+              - name: CONST_SRC_CHANNEL_SUBSLEVELS
+                value: "youtube_channel_subslevels"    
+              - name: CONST_DST_CHANNEL_SUBSLEVELS
+                value: "localdevs_youtube_channel_subslevels"    
+              - name: LOGGER_LEVEL
+                value: "verbose"            
+              - name: ScrollLifeTime
+                value: "10s"            
+              - name: ScrollSleepCount
+                value: "100"            
+              - name: ScrollSleepMilli
+                value: "0" 
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "800Mi"
+            requests:
+              cpu: "100m"
+              memory: "300Mi"
+          volumeMounts:
+            - mountPath: "/usr/src/app/secret"
+              name: secret-common
+              readOnly: true
+        volumes:
+          - name: secret-common
+            secret:
+              secretName: prod-secret-common
+      - name: exit-handler
+        steps:
+          - - name: slack-notification
+              templateRef:
+                name: slack-notification-template
+                template: end-notification
+                clusterScope: true
+              arguments:
+                parameters:
+                  - name: success-message
+                    value: true
