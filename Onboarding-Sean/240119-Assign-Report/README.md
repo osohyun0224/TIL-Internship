@@ -1,4 +1,4 @@
-# Today I Learned, 2024.01.18 (THUR)
+# Today I Learned, 2024.01.19 (FRI)
 
 ## Intro.
 오늘은 어제까지 작업한 샘플링 작업이 잘 되었는지 확인하려고 합니다.
@@ -6,7 +6,7 @@
 ## Main.
 ### [1] 로컬 opensearch 켜서 인덱스 restore 작업
 
-먼저 template_node 파일에서 로컬 opensearch를 열고 인덱스를 restore 작업을 진행해 보았습니다.
+먼저 template_node 파일에서 로컬 opensearch를 열고 인덱스를 restore 작업을 진행해 보았습니s다.
 
 터미널 1 > 오픈리서치 시작
 
