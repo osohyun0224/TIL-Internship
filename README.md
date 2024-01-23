@@ -33,4 +33,4 @@
 | INDEX | DATE | LEAD | TOPIC | REPO | 
 |:----:|:----:|:----:|:----:|:----:|
 | 0 | 240107-15 | Harry  | 인급동 페이지에 대해서 페이지네이션 기능을 <br/> 백엔드 구현하고(서버 구현) 프론트에도 연결한다. | [Harry's Assgin Report](https://github.com/osohyun0224/TIL-Internship/tree/master/Onboarding-Harry) |
-| 1 | 240116-22 | Sean   | DevSampling 코드 개선 / CronJob을  Cronworkflow로 변환 작업을 진행한다. | [Sean's Assgin Report](https://github.com/osohyun0224/TIL-Internship/tree/master/Onboarding-Sean)
+| 1 | 240116-22 | Sean   | DevSampling 코드 개선 / CronJob을  Cronworkflow로 변환 작업을 진행한다. <br/> 특정 샘플링 인덱스에 alias를 추가하여 shell 스크립트를 완성한다.| [Sean's Assgin Report](https://github.com/osohyun0224/TIL-Internship/tree/master/Onboarding-Sean)
