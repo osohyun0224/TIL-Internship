@@ -1,0 +1,14 @@
+#!/bin/ash
+apiVersion: v1
+kind: Pod
+metadata:
+  name: garden-pod
+  namespace: sandbox
+  labels:
+    app: garden
+spec:
+  containers:
+  - name: node-api-server
+    image: gardenoh/node-api-server:latest
+    ports:
+    - containerPort: 3000

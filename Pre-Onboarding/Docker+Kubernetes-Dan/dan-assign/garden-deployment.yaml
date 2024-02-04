@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: garden-deployment
+  namespace: sandbox
+spec:
+  replicas: 2  
+  selector:
+    matchLabels:
+      app: garden
+  template:
+    metadata:
+      labels:
+        app: garden
+    spec:
+      containers:
+      - name: node-api-server
+        image: gardenoh/node-api-server:latest
+        ports:
+        - containerPort: 3000
